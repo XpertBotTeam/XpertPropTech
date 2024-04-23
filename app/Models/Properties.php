@@ -35,6 +35,9 @@ class Properties extends Model
     {
         return $this->belongsTo(User::class);
     }
+   
+
+    
     
     
 }
