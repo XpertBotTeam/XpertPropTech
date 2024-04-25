@@ -8,7 +8,7 @@ use App\Http\Resources\TransactionResource;
 use App\Models\Transaction;
 
 
-class TranactionsController extends Controller
+class TransactionsController extends Controller
 {
     /**
      * Display a listing of the resource.
