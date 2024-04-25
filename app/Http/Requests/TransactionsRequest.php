@@ -11,7 +11,7 @@ class TransactionsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class TransactionsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id'=>'required',
+            'properties_id'=>'required',
+            'client_id'=>'required',
+            'agent_id'=>'required',
+            'transaction_date'=>'required',
+            'transaction_type'=>'required',
+            'amount'=>'required',
+
+        
+
+         
+
+       
         ];
     }
 }

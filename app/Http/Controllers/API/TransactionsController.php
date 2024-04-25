@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Resources\TransactionResource;
-use App\Models\Transaction;
+use App\Http\Requests\TransactionsRequest;
+use App\Models\Transactions;
 
 
 class TransactionsController extends Controller
@@ -15,23 +15,37 @@ class TransactionsController extends Controller
      */
     public function index()
     {
-        //
+        $transactions = Transactions::all();
+
+        return response()->json([
+            'status' => true,
+            'data' => $transactions,
+            'message' => 'Transactions retrieved successfully.',
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TransactionsRequest $request)
     {
-        //
+        $user = auth()->user();
+        if ($user->id == $request->get('user_id')) { // Corrected usage of $request
+            $transactions = Transactions::create($request->all());
+            return response()->json([
+                'status' => true,
+                'data' => $transactions,
+                'message' => 'Transactions Created Successfully'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'data' => null,
+                'message' => 'User is not authenticated'
+            ]);
+        }
     }
 
     /**
