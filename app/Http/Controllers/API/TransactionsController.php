@@ -53,23 +53,49 @@ class TransactionsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $transactions = Transactions::find($id);
+        if(!is_null($transactions))
+        {
+            return response()->json([
+                'status'=>true,
+                'data'=>$transactions,
+                'message'=>'Transactions data returned successfully'
+            ]);
+        }else{
+            return response()->json([
+                'status'=>false,
+                'data'=>null,
+                'message'=>'Transactions data not found'
+            ]);
+            
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = auth()->user();
+        if ($user->id == $request->get('user_id')) {
+            $transactions = Transactions::find($id);
+            if (!is_null($transactions)) {
+                $transactions->update($request->all()); // Corrected method call
+                return response()->json([
+                    'status' => true,
+                    'data' => $transactions,
+                    'message' => 'transactions Updated successfully'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'data' => null,
+                    'message' => 'User not authenticated'
+                ]);
+            }
+        }
     }
 
     /**
@@ -77,6 +103,22 @@ class TransactionsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-    }
+        $transactions = Transactions::find($id);
+        if(!is_null($transactions))
+        {
+            $transactions->delete();
+            return response()->json([
+                'status' => true,
+                'data'=>null,
+                'message' => 'Transactions deleted successfully'
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'data'=>null,
+                'message' => 'transactions not found'
+                ]);
+        }
+    } 
+     
 }

@@ -34,6 +34,6 @@ class Transactions extends Model
 
     public function agent()
     {
-        return $this->belongsTo(Agent::class);
+        return $this->belongsTo(Agents::class);
     }
 }
